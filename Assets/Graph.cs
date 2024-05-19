@@ -10,6 +10,9 @@ public class Graph : MonoBehaviour
     [SerializeField, Range(10, 100)]
     int resolution = 10;
 
+    [SerializeField]
+    FunctionLibrary.FunctionName function;
+
     Transform[] points;
 
     void Awake()
@@ -35,11 +38,13 @@ public class Graph : MonoBehaviour
     void Update()
     {
         var time = Time.time;
+        var f = FunctionLibrary.GetFunction(function);
+
         for (var i = 0; i < resolution; i++)
         {
             var point = points[i];
             var position = point.localPosition;
-            position.y = Mathf.Sin((position.x + time) * Mathf.PI);
+            position.y = f(position.x, time);
             point.localPosition = position;
         }
     }
